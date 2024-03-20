@@ -42,3 +42,7 @@ func (s Service) Client(token noona.OAuthToken) (Client, error) {
 
 	return Client{Client: client, cfg: s.cfg}, nil
 }
+
+func (s Service) ClientID() string {
+	return s.cfg.ClientID
+}
