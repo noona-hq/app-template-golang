@@ -8,7 +8,7 @@ require (
 	github.com/golang-jwt/jwt v3.2.2+incompatible
 	github.com/kelseyhightower/envconfig v1.4.0
 	github.com/labstack/echo/v4 v4.11.4
-	github.com/noona-hq/noona-sdk-go v0.0.0-20240319184756-74effe1fede4
+	github.com/noona-hq/noona-sdk-go v0.0.0-20240514152207-8f84778e2cfe
 	github.com/pkg/errors v0.9.1
 	go.mongodb.org/mongo-driver v1.14.0
 	go.uber.org/zap v1.27.0
