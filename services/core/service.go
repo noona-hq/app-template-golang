@@ -175,7 +175,7 @@ func (s Service) noonaUserAsUser(user *noonasdk.User, token *noonasdk.OAuthToken
 		return entity.User{}, errors.New("user has no associated companies")
 	}
 
-	company, err := (*user.Companies)[0].AsCompany()
+	company, err := (*user.Companies)[0].AsCompanyResponse()
 	if err != nil {
 		return entity.User{}, errors.Wrap(err, "error getting company")
 	}
