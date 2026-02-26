@@ -1,4 +1,3 @@
-```markdown
 # Noona HQ Golang App Template
 
 Template repository for building Noona applications using Golang.
@@ -23,4 +22,3 @@ Template repository for building Noona applications using Golang.
 - **Noona SDK:** Integrates with `noona-sdk-go` for interacting with other Noona services.
 - **MongoDB:** Uses `go.mongodb.org/mongo-driver` for database interactions.
 - **JWT:** Implements authentication and authorization with `github.com/golang-jwt/jwt`.
-```
