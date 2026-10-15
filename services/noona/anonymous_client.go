@@ -13,14 +13,22 @@ type AnonymousClient struct {
 	Client *noona.ClientWithResponses
 }
 
+func (n AnonymousClient) clientCredentials(_ context.Context, req *http.Request) error {
+	req.SetBasicAuth(n.cfg.ClientID, n.cfg.ClientSecret)
+
+	query := req.URL.Query()
+	query.Del("client_id")
+	query.Del("client_secret")
+	req.URL.RawQuery = query.Encode()
+
+	return nil
+}
+
 func (n AnonymousClient) CodeTokenExchange(code string) (*noona.OAuthToken, error) {
-	tokenResponse, err := n.Client.GetOAuthTokenWithResponse(context.Background(), &noona.GetOAuthTokenParams{
-		ClientId:     n.cfg.ClientID,
-		ClientSecret: n.cfg.ClientSecret,
-	}, noona.GetOAuthTokenJSONRequestBody{
+	tokenResponse, err := n.Client.GetOAuthTokenWithResponse(context.Background(), &noona.GetOAuthTokenParams{}, noona.GetOAuthTokenJSONRequestBody{
 		Code:      &code,
 		GrantType: noona.AuthorizationCode,
-	})
+	}, n.clientCredentials)
 	if err != nil {
 		return nil, errors.Wrap(err, "Error in code exchange")
 	}
@@ -33,13 +41,10 @@ func (n AnonymousClient) CodeTokenExchange(code string) (*noona.OAuthToken, erro
 }
 
 func (n AnonymousClient) RefreshTokenExchange(refreshToken string) (*noona.OAuthToken, error) {
-	tokenResponse, err := n.Client.GetOAuthTokenWithResponse(context.Background(), &noona.GetOAuthTokenParams{
-		ClientId:     n.cfg.ClientID,
-		ClientSecret: n.cfg.ClientSecret,
-	}, noona.GetOAuthTokenJSONRequestBody{
+	tokenResponse, err := n.Client.GetOAuthTokenWithResponse(context.Background(), &noona.GetOAuthTokenParams{}, noona.GetOAuthTokenJSONRequestBody{
 		RefreshToken: &refreshToken,
 		GrantType:    noona.RefreshToken,
-	})
+	}, n.clientCredentials)
 	if err != nil {
 		return nil, errors.Wrap(err, "Error in refresh token exchange")
 	}
